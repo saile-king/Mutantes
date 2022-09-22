@@ -29,6 +29,7 @@ export class CreateMutanteDto {
   readonly imagen: string;
 
   @IsString()
+  @IsNotEmpty()
   readonly grupo: string;
 }
 

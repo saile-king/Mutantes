@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateMutanteDto } from 'src/mutantes/dtos/mutante.dto';
 import { Mutante } from 'src/mutantes/entities/mutante.entity';
 import { Repository } from 'typeorm';
 
@@ -20,5 +21,10 @@ export class MutantesService {
       throw new NotFoundException(`Mutante #${id} not found`);
     }
     return mutante;
+  }
+
+  create(data: CreateMutanteDto) {
+    const newMutante = this.mutantesRepository.create(data);
+    return this.mutantesRepository.save(newMutante);
   }
 }

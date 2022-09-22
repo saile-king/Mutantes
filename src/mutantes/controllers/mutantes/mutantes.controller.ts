@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
-import { CreateMutanteDto } from 'src/mutantes/dtos/mutante.dto';
+import {
+  CreateMutanteDto,
+  UpdateMutanteDto,
+} from 'src/mutantes/dtos/mutante.dto';
 import { MutantesService } from 'src/mutantes/services/mutantes/mutantes.service';
 
 @ApiTags('mutantes')
@@ -22,5 +33,18 @@ export class MutantesController {
   @Post()
   create(@Body() payload: CreateMutanteDto) {
     return this.mutantesService.create(payload);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateMutanteDto,
+  ) {
+    return this.mutantesService.update(id, payload);
+  }
+
+  @Delete(':id')
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.mutantesService.remove(id);
   }
 }

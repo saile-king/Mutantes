@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateMutanteDto } from 'src/mutantes/dtos/mutante.dto';
+import {
+  CreateMutanteDto,
+  UpdateMutanteDto,
+} from 'src/mutantes/dtos/mutante.dto';
 import { Mutante } from 'src/mutantes/entities/mutante.entity';
 import { Repository } from 'typeorm';
 
@@ -26,5 +29,19 @@ export class MutantesService {
   create(data: CreateMutanteDto) {
     const newMutante = this.mutantesRepository.create(data);
     return this.mutantesRepository.save(newMutante);
+  }
+
+  async update(id: number, changes: Partial<UpdateMutanteDto>) {
+    const mutante = await this.mutantesRepository.findOneBy({ id });
+    this.mutantesRepository.merge(mutante, changes);
+    return this.mutantesRepository.save(mutante);
+  }
+
+  async remove(id: number) {
+    const mutante = await this.mutantesRepository.findOneBy({ id });
+    if (!mutante) {
+      throw new NotFoundException(`Mutante #${id} not found`);
+    }
+    return this.mutantesRepository.remove(mutante);
   }
 }

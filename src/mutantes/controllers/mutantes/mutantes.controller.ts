@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
 import { CreateMutanteDto } from 'src/mutantes/dtos/mutante.dto';
 import { MutantesService } from 'src/mutantes/services/mutantes/mutantes.service';
 
+@ApiTags('mutantes')
 @Controller('mutantes')
 export class MutantesController {
   constructor(private mutantesService: MutantesService) {}

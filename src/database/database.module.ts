@@ -1,20 +1,29 @@
 import { Module, Global } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mutante } from 'src/mutantes/entities/mutante.entity';
+import config from '../config';
 
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'mutante',
-      entities: [Mutante],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      inject: [config.KEY],
+      useFactory: (configService: ConfigType<typeof config>) => {
+        const { username, host, db_name, password, port } = configService.mysql;
+        return {
+          type: 'mysql',
+          host,
+          port,
+          username,
+          password,
+          database: db_name,
+          entities: [Mutante],
+          synchronize: true,
+        };
+      },
     }),
   ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

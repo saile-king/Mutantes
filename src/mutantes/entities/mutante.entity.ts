@@ -6,21 +6,21 @@ export class Mutante {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100, nullable: false, unique: true })
   nombre: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100, nullable: false })
   alter_ego: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100, nullable: false })
   ciudad_operacion: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100, nullable: false })
   condicion: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 350, nullable: false })
   imagen: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 350, nullable: false })
   grupo: string;
 }

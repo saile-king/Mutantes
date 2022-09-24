@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module, Global } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,7 +20,7 @@ import config from '../config';
           password,
           database: db_name,
           entities: [Mutante],
-          synchronize: true,
+          synchronize: false,
         };
       },
     }),

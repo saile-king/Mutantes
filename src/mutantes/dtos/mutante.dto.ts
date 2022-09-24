@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 
 export class CreateMutanteDto {
   @ApiProperty()
@@ -38,14 +38,6 @@ export class CreateMutanteDto {
   readonly grupo: string;
 }
 
-export class UpdateMutanteDto {
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  readonly nombre: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  readonly ciudad_operacion: string;
-}
+export class UpdateMutanteDto extends PartialType(
+  OmitType(CreateMutanteDto, ['alter_ego','condicion','grupo','imagen'] as const),
+) {}

@@ -19,10 +19,18 @@ export class MutantesService {
     return this.mutantesRepository.find();
   }
 
-  async findOne(id: number) {
-    const mutante = await this.mutantesRepository.findOneBy({ id });
-    if (!mutante) {
-      throw new NotFoundException(`Mutante #${id} not found`);
+  async findName(nombre: string) {
+    const mutante = await this.mutantesRepository.findBy({ nombre });
+    if (mutante.length === 0) {
+      throw new NotFoundException(`Mutante ${nombre} not found`);
+    }
+    return mutante;
+  }
+
+  async findCiudad(ciudad_operacion: string) {
+    const mutante = await this.mutantesRepository.findBy({ciudad_operacion});
+    if (mutante.length === 0) {
+      throw new NotFoundException(`Mutantes in ${ciudad_operacion} not found`);
     }
     return mutante;
   }

@@ -26,9 +26,14 @@ export class MutantesController {
     return this.mutantesService.findAll();
   }
 
-  @Get(':mutanteId')
-  getOne(@Param('mutanteId', ParseIntPipe) mutanteId: number) {
-    return this.mutantesService.findOne(mutanteId);
+  @Get('nombre/:name')
+  getName(@Param('name') name: string) {
+    return this.mutantesService.findName(name);
+  }
+
+  @Get('cuidad_operacion/:ciudad_operacion')
+  getCiudad(@Param('ciudad_operacion') ciudad_operacion: string) {
+    return this.mutantesService.findCiudad(ciudad_operacion);
   }
 
   @Post()

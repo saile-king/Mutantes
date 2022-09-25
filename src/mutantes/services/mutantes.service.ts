@@ -48,9 +48,9 @@ export class MutantesService {
 
   async remove(id: number) {
     const mutante = await this.mutantesRepository.findOneBy({ id });
-    if (!mutante) {
+    if (!mutante.id) {
       throw new NotFoundException(`Mutante #${id} not found`);
     }
     return this.mutantesRepository.remove(mutante);
   }
-}
+} 

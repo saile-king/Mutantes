@@ -16,6 +16,12 @@ export class SuperpoderService {
     private mutantesService: MutantesService,
   ) {}
 
+  findAll() {
+    return this.superpoderRepository.find({
+      relations: ['mutante'],
+    });
+  }
+
   async create(data: CreateSuperpoderDto) {
     const newSuperpoder = this.superpoderRepository.create(data);
     if (data.mutanteId) {

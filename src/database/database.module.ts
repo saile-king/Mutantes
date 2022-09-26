@@ -11,7 +11,7 @@ import config from '../config';
     TypeOrmModule.forRootAsync({
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {
-        const { username, host, db_name, password, port } = configService.mysql;
+        const { username, host, db_name, password, port } = configService.mysql_docker;
         return {
           type: 'mysql',
           host,
@@ -20,7 +20,7 @@ import config from '../config';
           password,
           database: db_name,
           entities: [Mutante],
-          synchronize: false,
+          synchronize: true,
         };
       },
     }),

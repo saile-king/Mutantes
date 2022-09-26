@@ -3,6 +3,7 @@ import { Module, Global } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mutante } from 'src/mutantes/entities/mutante.entity';
+import { Superpoder } from 'src/mutantes/entities/superpoder.entity';
 import config from '../config';
 
 @Global()
@@ -11,7 +12,7 @@ import config from '../config';
     TypeOrmModule.forRootAsync({
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {
-        const { username, host, db_name, password, port } = configService.mysql_docker;
+        const { username, host, db_name, password, port } = configService.mysql;
         return {
           type: 'mysql',
           host,
@@ -19,8 +20,8 @@ import config from '../config';
           username,
           password,
           database: db_name,
-          entities: [Mutante],
-          synchronize: true,
+          synchronize: false,
+          autoLoadEntities: true,
         };
       },
     }),

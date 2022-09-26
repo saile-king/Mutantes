@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { get } from 'http';
 import {
   CreateMutanteDto,
   UpdateMutanteDto,
@@ -16,13 +17,23 @@ export class MutantesService {
   ) {}
 
   findAll(): Promise<Mutante[]> {
-    return this.mutantesRepository.find();
+    return this.mutantesRepository.find({
+      relations: ['super_poder'],
+    });
   }
 
   async findName(nombre: string) {
     const mutante = await this.mutantesRepository.findBy({ nombre });
     if (mutante.length === 0) {
       throw new NotFoundException(`Mutante ${nombre} not found`);
+    }
+    return mutante;
+  }
+
+  async findOne(id: number) {
+    const mutante = await this.mutantesRepository.findOneBy({ id });
+    if (!mutante) {
+      throw new NotFoundException(`Mutante ${id} not found`);
     }
     return mutante;
   }

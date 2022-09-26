@@ -24,5 +24,12 @@ export default registerAs('config', () => {
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
     },
+    local: {
+      host: process.env.HOST,
+      db_name: process.env.DATABASE_NAME,
+      port: parseInt(process.env.DATABASE_PORT, 10),
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+    },
   };
 });

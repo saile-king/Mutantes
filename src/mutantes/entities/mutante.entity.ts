@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Superpoder } from "./superpoder.entity";
 
-@Entity({ name : 'mutantes' })
+@Entity()
 export class Mutante {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,6 +22,21 @@ export class Mutante {
   @Column({ type: 'varchar', length: 350, nullable: false })
   imagen: string;
 
-  @Column({ type: 'varchar', length: 350, nullable: false })
+  @Column({ type: 'varchar', length: 100, nullable: false })
   grupo: string;
+
+  // @CreateDateColumn({
+  //   type: 'timestamptz',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  // })
+  // createAt: Date;
+
+  // @UpdateDateColumn({
+  //   type: 'timestamptz',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  // })
+  // updateAt: Date;
+
+  @OneToMany(() =>Superpoder, (super_poder) => super_poder.mutante)
+    super_poder: Superpoder[]
 }

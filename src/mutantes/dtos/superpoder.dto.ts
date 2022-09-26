@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 export class CreateSuperpoderDto {
@@ -9,9 +9,9 @@ export class CreateSuperpoderDto {
   readonly nombre: string;
 
   @ApiProperty()
-  @IsNumber()
+  @IsPositive()
   @IsNotEmpty()
-  readonly mutante_id: number;
+  readonly mutanteId: number;
 }
 
 export class UpdateSuperpoderDto extends PartialType(CreateSuperpoderDto) {}

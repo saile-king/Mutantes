@@ -22,9 +22,9 @@ export class MutantesService {
   ) {}
 
   findAll(): Promise<Mutante[]> {
-    return this.mutantesRepository.find({
-      relations: ['superpoderes', 'vehiculos'],
-    });
+    return this.mutantesRepository.find(
+      { relations: ['vehiculos', 'superpoderes'] }
+    );
   }
 
   async findName(nombre: string) {
@@ -53,15 +53,15 @@ export class MutantesService {
 
   async create(data: CreateMutanteDto) {
     const newMutante = this.mutantesRepository.create(data);
-    return this.mutantesRepository.save(newMutante);
     if (data.superpodersIds) {
-      const superpoderes = await this.superpoderesRepository.findBy({id: In([1, 2, 3, 4])});
+      const superpoderes = await this.superpoderesRepository.findBy({id: In(data.superpodersIds)});
       newMutante.superpoderes = superpoderes ;
     }
     if (data.vehiculosIds) {
-      const vehiculos = await this.vehiculosRepository.findBy({id: In([1, 2, 3, 4])});
+      const vehiculos = await this.vehiculosRepository.findBy({id: In(data.vehiculosIds)});
       newMutante.vehiculos = vehiculos;
     }
+    return this.mutantesRepository.save(newMutante);
   }
 
   async update(id: number, changes: Partial<UpdateMutanteDto>) {

@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { create } from 'domain';
 import { Repository } from 'typeorm';
 import {
   CreateSuperpoderDto,
@@ -17,26 +18,17 @@ export class SuperpoderService {
   ) {}
 
   findAll() {
-    return this.superpoderRepository.find({
-      relations: ['mutante'],
-    });
+    return this.superpoderRepository.find();
   }
 
-  async create(data: CreateSuperpoderDto) {
+  create(data: CreateSuperpoderDto) {
     const newSuperpoder = this.superpoderRepository.create(data);
-    if (data.mutanteId) {
-      const mutante = await this.mutantesService.findOne(data.mutanteId);
-      newSuperpoder.mutante = mutante;
-    }
     return this.superpoderRepository.save(newSuperpoder);
   }
 
   async update(id: number, changes: UpdateSuperpoderDto) {
     const newSuperpoder = await this.superpoderRepository.findOneBy({ id });
-    if (changes.mutanteId) {
-      const mutante = await this.mutantesService.findOne(changes.mutanteId);
-      newSuperpoder.mutante = mutante;
-    }
+    this.superpoderRepository.merge(newSuperpoder, changes);
     return this.superpoderRepository.save(newSuperpoder);
   }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Mutante } from "./mutante.entity";
 
 @Entity()
@@ -11,19 +11,17 @@ export class Superpoder {
   @Column({ type: 'varchar', length: 100, nullable: false })
   nombre: string;
 
-  // @CreateDateColumn({
-  //   type: 'timestamptz',
-  //   default: () => 'CURRENT_TIMESTAMP',
-  // })
-  // createAt: Date;
+  @CreateDateColumn({
+    type: 'timestamp'
+  })
+  createAt: Date;
 
-  // @UpdateDateColumn({
-  //   type: 'timestamptz',
-  //   default: () => 'CURRENT_TIMESTAMP',
-  // })
-  // updateAt: Date;
+  @UpdateDateColumn({
+    type: 'timestamp'
+  })
+  updateAt: Date;
 
-  @ManyToOne(() => Mutante, (mutante) => mutante.super_poder)
-  mutante: Mutante;
+  @ManyToMany(() => Mutante, (mutante) => mutante.superpoderes)
+  mutantes: Mutante[];
 
 }

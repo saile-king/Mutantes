@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { ArrayMinSize, ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 
 export class CreateMutanteDto {
@@ -36,6 +36,18 @@ export class CreateMutanteDto {
   })
   @IsString()
   readonly grupo: string;
+
+  @ApiProperty()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  readonly superpodersIds: number[];
+
+  @ApiProperty()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  readonly vehiculosIds: number[]
 }
 
 export class UpdateMutanteDto extends PartialType(

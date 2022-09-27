@@ -1,24 +1,29 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { get } from 'http';
 import {
   CreateMutanteDto,
   UpdateMutanteDto,
 } from 'src/mutantes/dtos/mutante.dto';
 import { Mutante } from 'src/mutantes/entities/mutante.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
+import { Superpoder } from '../entities/superpoder.entity';
+import { Vehiculo } from '../entities/vehiculo.entity';
 
 @Injectable()
 export class MutantesService {
   constructor(
     @InjectRepository(Mutante)
     private readonly mutantesRepository: Repository<Mutante>,
+    @InjectRepository(Vehiculo)
+    private readonly vehiculosRepository: Repository<Vehiculo>,
+    @InjectRepository(Superpoder)
+    private readonly superpoderesRepository: Repository<Superpoder>,
   ) {}
 
   findAll(): Promise<Mutante[]> {
     return this.mutantesRepository.find({
-      relations: ['super_poder'],
+      relations: ['superpoderes', 'vehiculos'],
     });
   }
 
@@ -46,9 +51,17 @@ export class MutantesService {
     return mutante;
   }
 
-  create(data: CreateMutanteDto) {
+  async create(data: CreateMutanteDto) {
     const newMutante = this.mutantesRepository.create(data);
     return this.mutantesRepository.save(newMutante);
+    if (data.superpodersIds) {
+      const superpoderes = await this.superpoderesRepository.findBy({id: In([1, 2, 3, 4])});
+      newMutante.superpoderes = superpoderes ;
+    }
+    if (data.vehiculosIds) {
+      const vehiculos = await this.vehiculosRepository.findBy({id: In([1, 2, 3, 4])});
+      newMutante.vehiculos = vehiculos;
+    }
   }
 
   async update(id: number, changes: Partial<UpdateMutanteDto>) {

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Superpoder } from "./superpoder.entity";
+import { Vehiculo } from "./vehiculo.entity";
 
 @Entity()
 export class Mutante {
@@ -25,18 +26,21 @@ export class Mutante {
   @Column({ type: 'varchar', length: 100, nullable: false })
   grupo: string;
 
-  // @CreateDateColumn({
-  //   type: 'timestamptz',
-  //   default: () => 'CURRENT_TIMESTAMP',
-  // })
-  // createAt: Date;
+  @CreateDateColumn({
+    type: 'timestamp'
+  })
+  createAt: Date;
 
-  // @UpdateDateColumn({
-  //   type: 'timestamptz',
-  //   default: () => 'CURRENT_TIMESTAMP',
-  // })
-  // updateAt: Date;
+  @UpdateDateColumn({
+    type: 'timestamp'
+  })
+  updateAt: Date;
 
-  @OneToMany(() =>Superpoder, (super_poder) => super_poder.mutante)
-    super_poder: Superpoder[]
+  @ManyToMany(() =>Superpoder, (superpoderes) => superpoderes.mutantes)
+  @JoinTable()
+  superpoderes: Superpoder[]
+
+  @ManyToMany(() => Vehiculo, (vehiculo) => vehiculo.mutantes)
+  @JoinTable()
+  vehiculos: Vehiculo[];
 }

@@ -49,6 +49,14 @@ export class MutantesController {
     return this.mutantesService.update(id, payload);
   }
 
+  @Put(':id/superpoder/:superpoderId')
+  addSuperpoder(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('superpoderId', ParseIntPipe) superpoderId: number,
+  ) {
+    return this.mutantesService.addSuperpoderToMutante(id, superpoderId);
+  }
+
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.mutantesService.remove(id);

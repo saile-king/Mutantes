@@ -80,7 +80,8 @@ export class MutantesService {
   async removeSuperpoderByMutante(mutanteId: number, superpoderId: number) {
     const mutante = await this.mutantesRepository.findOne({
       where: {id: mutanteId},
-      relations: ['superpoderes']});
+      relations: ['superpoderes']
+    });
 
     if (!mutante) {
       throw new NotFoundException(`Mutante ${mutanteId} not found`);
@@ -91,6 +92,24 @@ export class MutantesService {
     mutante.superpoderes = mutante.superpoderes.filter(
       item => item.id !== superpoderId,
     );
+    return this.mutantesRepository.save(mutante);
+  }
+
+  async addSuperpoderToMutante(mutanteId: number, superpoderId: number) {
+    const mutante = await this.mutantesRepository.findOne({
+      where: {id: mutanteId},
+      relations: ['superpoderes']
+    });
+    if (!mutante) {
+      throw new NotFoundException(`Mutante ${mutanteId} not found`);
+    }
+    const superpoder = await this.superpoderesRepository.findOne({
+      where: {id: superpoderId},
+    });
+    if (!superpoder) {
+      throw new NotFoundException(`Superpoder ${superpoderId} not found`);
+    }
+    mutante.superpoderes.push(superpoder);
     return this.mutantesRepository.save(mutante);
   }
 

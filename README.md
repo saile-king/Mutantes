@@ -48,10 +48,10 @@ $ npm run start:prod
 ## Migrations
 ```bash
 # Generate Migratios
-$ npm run typeorm -- migration:generate
+$ npm run migration:generate
 
 # Run Migration
-$ npm run typeorm -- migration:run
+$ npm run migrations:run
 ```
 
 ## Test

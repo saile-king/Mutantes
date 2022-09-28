@@ -51,5 +51,5 @@ export class CreateMutanteDto {
 }
 
 export class UpdateMutanteDto extends PartialType(
-  OmitType(CreateMutanteDto, ['alter_ego','condicion','grupo','imagen'] as const),
+  OmitType(CreateMutanteDto, ['alter_ego','condicion','grupo','imagen','superpodersIds','vehiculosIds'] as const),
 ) {}

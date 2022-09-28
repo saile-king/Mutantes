@@ -68,7 +68,9 @@ export class MutantesService {
       const vehiculos = await this.vehiculosRepository.findBy({id: In(data.vehiculosIds)});
       newMutante.vehiculos = vehiculos;
     }
-    return this.mutantesRepository.save(newMutante);
+    return await this.mutantesRepository.save(newMutante).catch((error) => {
+      throw new NotFoundException(error.message);
+    });;
   }
 
   async update(id: number, changes: Partial<UpdateMutanteDto>) {

@@ -15,7 +15,6 @@ import {
   UpdateMutanteDto,
 } from 'src/mutantes/dtos/mutante.dto';
 import { MutantesService } from 'src/mutantes/services/mutantes.service';
-import { Vehiculo } from '../entities/vehiculo.entity';
 
 @ApiTags('mutantes')
 @Controller('mutantes')

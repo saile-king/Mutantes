@@ -70,4 +70,12 @@ export class MutantesController {
     return this.mutantesService.removeSuperpoderByMutante(id, superpoderId);
   }
 
+  @Delete(':id/vehiculo/:vehiculoId')
+  deleteVehiculo(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('vehiculoId', ParseIntPipe) vehiculoId: number,
+  ) {
+    return this.mutantesService.removeVehiculoByMutante(id, vehiculoId);
+  }
+
 }

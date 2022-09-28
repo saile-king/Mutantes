@@ -84,13 +84,31 @@ export class MutantesService {
     });
 
     if (!mutante) {
-      throw new NotFoundException(`Mutante ${mutanteId} not found`);
+      throw new NotFoundException(`Mutante #${mutanteId} not found`);
     }
     if (!mutante.superpoderes.find((superpoder) => superpoder.id === superpoderId)) {
-      throw new NotFoundException(`Superpoder ${superpoderId} not found`);
+      throw new NotFoundException(`Superpoder #${superpoderId} not found`);
     }
     mutante.superpoderes = mutante.superpoderes.filter(
       item => item.id !== superpoderId,
+    );
+    return this.mutantesRepository.save(mutante);
+  }
+
+  async removeVehiculoByMutante(mutanteId: number, vehiculoId: number) {
+    const mutante = await this.mutantesRepository.findOne({
+      where: {id: mutanteId},
+      relations: ['vehiculos']
+    });
+
+    if (!mutante) {
+      throw new NotFoundException(`Mutante #${mutanteId} not found`);
+    }
+    if (!mutante.vehiculos.find((vehiculo) => vehiculo.id === vehiculoId)) {
+      throw new NotFoundException(`Vehiculo #${vehiculoId} not found`);
+    }
+    mutante.vehiculos = mutante.vehiculos.filter(
+      item => item.id !== vehiculoId,
     );
     return this.mutantesRepository.save(mutante);
   }
@@ -101,13 +119,13 @@ export class MutantesService {
       relations: ['superpoderes']
     });
     if (!mutante) {
-      throw new NotFoundException(`Mutante ${mutanteId} not found`);
+      throw new NotFoundException(`Mutante #${mutanteId} not found`);
     }
     const superpoder = await this.superpoderesRepository.findOne({
       where: {id: superpoderId},
     });
     if (!superpoder) {
-      throw new NotFoundException(`Superpoder ${superpoderId} not found`);
+      throw new NotFoundException(`Superpoder #${superpoderId} not found`);
     }
     mutante.superpoderes.push(superpoder);
     return this.mutantesRepository.save(mutante);

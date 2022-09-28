@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber, IsString, IsUrl, IS_MIME_TYPE } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 
 export class CreateMutanteDto {

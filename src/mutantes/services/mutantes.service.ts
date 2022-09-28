@@ -22,13 +22,14 @@ export class MutantesService {
   ) {}
 
   findAll(): Promise<Mutante[]> {
-    return this.mutantesRepository.find(
-      { relations: ['vehiculos', 'superpoderes'] }
-    );
+    return this.mutantesRepository.find();
   }
 
   async findName(nombre: string) {
-    const mutante = await this.mutantesRepository.findBy({ nombre });
+    const mutante = await this.mutantesRepository.find({
+      where: {nombre},
+      relations: ['vehiculos', 'superpoderes'],
+     });
     if (mutante.length === 0) {
       throw new NotFoundException(`Mutante ${nombre} not found`);
     }
@@ -36,7 +37,10 @@ export class MutantesService {
   }
 
   async findOne(id: number) {
-    const mutante = await this.mutantesRepository.findOneBy({ id });
+    const mutante = await this.mutantesRepository.findOne({
+      where: {id},
+      relations: ['vehiculos', 'superpoderes']
+    });
     if (!mutante) {
       throw new NotFoundException(`Mutante ${id} not found`);
     }
@@ -44,7 +48,10 @@ export class MutantesService {
   }
 
   async findCiudad(ciudad_operacion: string) {
-    const mutante = await this.mutantesRepository.findBy({ciudad_operacion});
+    const mutante = await this.mutantesRepository.find({
+      where: {ciudad_operacion},
+      relations: ['vehiculos', 'superpoderes'],
+    });
     if (mutante.length === 0) {
       throw new NotFoundException(`Mutantes in ${ciudad_operacion} not found`);
     }
@@ -67,6 +74,23 @@ export class MutantesService {
   async update(id: number, changes: Partial<UpdateMutanteDto>) {
     const mutante = await this.mutantesRepository.findOneBy({ id });
     this.mutantesRepository.merge(mutante, changes);
+    return this.mutantesRepository.save(mutante);
+  }
+
+  async removeSuperpoderByMutante(mutanteId: number, superpoderId: number) {
+    const mutante = await this.mutantesRepository.findOne({
+      where: {id: mutanteId},
+      relations: ['superpoderes']});
+
+    if (!mutante) {
+      throw new NotFoundException(`Mutante ${mutanteId} not found`);
+    }
+    if (!mutante.superpoderes.find((superpoder) => superpoder.id === superpoderId)) {
+      throw new NotFoundException(`Superpoder ${superpoderId} not found`);
+    }
+    mutante.superpoderes = mutante.superpoderes.filter(
+      item => item.id !== superpoderId,
+    );
     return this.mutantesRepository.save(mutante);
   }
 

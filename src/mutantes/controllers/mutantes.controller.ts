@@ -53,4 +53,13 @@ export class MutantesController {
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.mutantesService.remove(id);
   }
+
+  @Delete(':id/superpoder/:superpoderId')
+  deleteSuperpoder(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('superpoderId', ParseIntPipe) superpoderId: number,
+  ) {
+    return this.mutantesService.removeSuperpoderByMutante(id, superpoderId);
+  }
+
 }

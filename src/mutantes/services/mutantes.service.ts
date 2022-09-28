@@ -131,6 +131,24 @@ export class MutantesService {
     return this.mutantesRepository.save(mutante);
   }
 
+  async addVehiculoToMutante(mutanteId: number, vehiculoId: number) {
+    const mutante = await this.mutantesRepository.findOne({
+      where: {id: mutanteId},
+      relations: ['vehiculos']
+    });
+    if (!mutante) {
+      throw new NotFoundException(`Mutante #${mutanteId} not found`);
+    }
+    const vehiculo = await this.vehiculosRepository.findOne({
+      where: {id: vehiculoId},
+    });
+    if (!vehiculo) {
+      throw new NotFoundException(`Vehiculo #${vehiculoId} not found`);
+    }
+    mutante.vehiculos.push(vehiculo);
+    return this.mutantesRepository.save(mutante);
+  }
+
   async remove(id: number) {
     const mutante = await this.mutantesRepository.findOneBy({ id });
     if (!mutante.id) {

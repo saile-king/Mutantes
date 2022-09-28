@@ -15,6 +15,7 @@ import {
   UpdateMutanteDto,
 } from 'src/mutantes/dtos/mutante.dto';
 import { MutantesService } from 'src/mutantes/services/mutantes.service';
+import { Vehiculo } from '../entities/vehiculo.entity';
 
 @ApiTags('mutantes')
 @Controller('mutantes')
@@ -55,6 +56,14 @@ export class MutantesController {
     @Param('superpoderId', ParseIntPipe) superpoderId: number,
   ) {
     return this.mutantesService.addSuperpoderToMutante(id, superpoderId);
+  }
+
+  @Put(':id/vehiculo/:vehiculoId')
+  addVehiculo(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('vehiculoId', ParseIntPipe) vehiculoId: number,
+  ) {
+    return this.mutantesService.addVehiculoToMutante(id, vehiculoId);
   }
 
   @Delete(':id')

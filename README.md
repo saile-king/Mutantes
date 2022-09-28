@@ -48,7 +48,7 @@ $ npm run start:prod
 ## Migrations
 ```bash
 # Generate Migratios
-$ npm run typeorm -- miragtion:generate
+$ npm run typeorm -- migration:generate
 
 # Run Migration
 $ npm run typeorm -- migration:run

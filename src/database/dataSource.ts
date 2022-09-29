@@ -1,13 +1,19 @@
 /* eslint-disable prettier/prettier */
 import { DataSource } from 'typeorm';
+import { config } from 'dotenv';
+import { ConfigService } from '@nestjs/config';
 
-export const connectionSource = new DataSource({
+config();
+const configService = new ConfigService();
+
+//export const connectionSource = new DataSource({
+  export default new DataSource({
   type: 'mysql',
-  host: 'b4vedjdpxyxv0m7jpvx0-mysql.services.clever-cloud.com',
-  port: 3306,
-  username: 'ulnmhbzpdurup0ug',
-  password: '1vBP8t0jvjijh1aCZImX',
-  database: 'b4vedjdpxyxv0m7jpvx0',
+  host: configService.get('HOST'),
+  port: configService.get('DATABASE_PORT'),
+  username: configService.get('DATABASE_USERNAME'),
+  password: configService.get('DATABASE_PASSWORD'),
+  database: configService.get('DATABASE_NAME'),
   logging: true,
   synchronize: false,
   entities: ['src/**/*.entity.ts'],

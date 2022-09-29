@@ -38,3 +38,4 @@ lerna-debug.log*
 *.env
 /mysql_data
 /postgres_data
+/scr/database/migrations

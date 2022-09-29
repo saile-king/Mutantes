@@ -10,7 +10,7 @@ import config from '../config';
     TypeOrmModule.forRootAsync({
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {
-        const { username, host, db_name, password, port } = configService.local;
+        const { username, host, db_name, password, port } = configService.mysql;
         return {
           type: 'mysql',
           host,
